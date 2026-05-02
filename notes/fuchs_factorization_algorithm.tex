@@ -1,0 +1,863 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[skip=10pt]{parskip}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{multicol}
+
+\usepackage[a3paper,left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm]{geometry}
+
+
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{block}{Block}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+
+\setlength{\parindent}{0pt}
+
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\fr}[1]{\left\{ #1 \right\}}
+\newcommand{\br}[1]{\left( #1 \right)}
+\newcommand{\diag}[1]{\operatorname{diag}\left( #1 \right)}
+
+
+
+\begin{document}
+
+
+\[
+    \frac{dy}{dz} = \left(\sum_{j=1}^{n} \frac{A_{j}}{z-s_j} + C\right)y,
+\]
+
+where $y=y(z)$, $A_{j}\in \mathbb{C}^{m\times m}$ and $C=C(z)$ is polynomial matrix. If we take $\hat{y} = T y$, where $T = T(z)$ is invertible, then
+
+\[
+    \frac{d\hat{y}}{dz} = \frac{dT}{dz} y + T \frac{dy}{dz} =
+    \frac{dT}{dz} T^{-1} \hat{y} + T \left(\sum_{j=1}^{n} \frac{A_{j}}{z-s_j} +C\right)y =
+    \left(\frac{dT}{dz} T^{-1} + T C T^{-1} + \sum_{j=1}^{n} \frac{T A_{j} T^{-1} }{z-s_j}\right) \hat{y}
+\]
+
+
+Let's take $4\times 4$ matrix and take
+
+\[
+    T(z) = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & (z-s_1)^\delta & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}, \quad
+    T^{-1}(z) = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & (z-s_1)^{-\delta} & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}, \quad
+    \frac{dT}{dz} = \begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        0 & \delta (z-s_1)^{\delta-1} & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0
+    \end{pmatrix}, \quad
+    \frac{dT}{dz} T^{-1} =
+    \frac{1}{z-s_1}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        0 & \delta & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\]
+
+and for simplicity, let's define $T(s_1)$ and $T^{-1}(s_1)$ as
+
+\[
+    T(s_1) = T^{-1}(s_1) = \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+\]
+
+Now let's consider $T A_j T^{-1}$
+
+\[
+    A_{j} = \begin{pmatrix}
+        a_{11}^{(j)} & a_{12}^{(j)} & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        a_{21}^{(j)} & a_{22}^{(j)} & a_{23}^{(j)} & a_{24}^{(j)} \\[10pt]
+        a_{31}^{(j)} & a_{32}^{(j)} & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & a_{42}^{(j)} & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix},\quad
+    T A_j T^{-1} = \begin{pmatrix}
+        a_{11}^{(j)} & a_{12}^{(j)} (z-s_1)^{-\delta} & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        a_{21}^{(j)}(z-s_1)^\delta & a_{22}^{(j)} & a_{23}^{(j)} (z-s_1)^\delta & a_{24}^{(j)} (z-s_1)^\delta\\[10pt]
+        a_{31}^{(j)} & a_{32}^{(j)} (z-s_1)^{-\delta} & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & a_{42}^{(j)} (z-s_1)^{-\delta} & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+\]
+
+so let's split it into parts
+
+\[
+\begin{aligned}
+    \frac{T A_j T^{-1}}{z-s_j} &= \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & a_{12}^{(j)} (z-s_1)^{-\delta} & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        a_{21}^{(j)}(z-s_1)^\delta & a_{22}^{(j)} & a_{23}^{(j)} (z-s_1)^\delta & a_{24}^{(j)} (z-s_1)^\delta\\[10pt]
+        a_{31}^{(j)} & a_{32}^{(j)} (z-s_1)^{-\delta} & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & a_{42}^{(j)} (z-s_1)^{-\delta} & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix} \\[10pt] &=
+    \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & 0 & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        0 & a_{22}^{(j)} & 0 & 0\\[10pt]
+        a_{31}^{(j)} & 0 & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & 0 & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+    +\frac{(z-s_1)^\delta}{z-s_j}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{ (z-s_1)^{-\delta}}{z-s_j}
+    \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+\end{aligned} \tag{$*$}
+\]
+
+
+\begin{block}
+
+Suppose $\delta = 1$ and $j\ne 1$, then
+
+\[
+\begin{aligned}
+    \frac{T A_j T^{-1}}{z-s_j} &=
+    \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & 0 & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        0 & a_{22}^{(j)} & 0 & 0\\[10pt]
+        a_{31}^{(j)} & 0 & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & 0 & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+    +\frac{z-s_1}{z-s_j}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)(z-s_j)}
+    \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+\end{aligned}
+\]
+
+since
+
+\[
+    \frac{z-s_1}{z-s_j} = 1 + \frac{s_j-s_1}{z-s_j}, \quad
+    \frac{1}{(z-s_1)(z-s_j)} = \frac{1}{s_j-s_1}
+    \left( \frac{1}{z-s_j} - \frac{1}{z-s_1} \right)
+\]
+
+so we get
+
+\[
+\begin{aligned}
+    \frac{T A_j T^{-1}}{z-s_j} &=
+    \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & (s_j-s_1)^{-1} a_{12}^{(j)} & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        (s_j-s_1)a_{21}^{(j)} & a_{22}^{(j)} & (s_j-s_1)a_{23}^{(j)} & (s_j-s_1)a_{24}^{(j)}\\[10pt]
+        a_{31}^{(j)} & (s_j-s_1)^{-1} a_{32}^{(j)} & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & (s_j-s_1)^{-1} a_{42}^{(j)} & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+    + \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\frac{1}{z-s_1}\begin{pmatrix}
+        0 & (s_j-s_1)^{-1} a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & (s_j-s_1)^{-1} a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & (s_j-s_1)^{-1} a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+\end{aligned}
+\]
+
+we can see that first part is $T(s_{j})A_{j}T^{-1}(s_{j})$. Now let's consider
+
+
+\[
+\begin{aligned}
+    \frac{T A_1 T^{-1}}{z-s_1} &=
+    \frac{1}{z-s_1}
+    \begin{pmatrix}
+        a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+        0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+        a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+        a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}
+\end{aligned} \tag{$**$}
+\]
+
+Therefore, we get interesting equasion
+
+\[
+\begin{aligned}
+    \sum_{j=1}^{n}\frac{T A_j T^{-1}}{z-s_j} &=
+    \frac{1}{z-s_1}
+    \begin{pmatrix}
+        a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+        0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+        a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+        a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &
+    + \sum_{j=2}^{n}\frac{T(s_j) A_j T^{-1}(s_j)}{z-s_j}
+    + \sum_{j=2}^{n} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\frac{1}{z-s_1} \sum_{j=2}^{n} \begin{pmatrix}
+        0 & (s_j-s_1)^{-1} a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & (s_j-s_1)^{-1} a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & (s_j-s_1)^{-1} a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    \\[10pt] & =
+    \frac{1}{z-s_1}\left(
+    \begin{pmatrix}
+        a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+        0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+        a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+        a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}\right)
+    + \sum_{j=2}^{n}\frac{T(s_j) A_j T^{-1}(s_j)}{z-s_j}
+    + \sum_{j=1}^{n} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}.
+\end{aligned}
+\]
+\end{block}
+
+
+\begin{block}
+Now suppose $\delta = -1$ and $j\ne 1$, then
+
+
+\[
+\begin{aligned}
+    \frac{T A_j T^{-1}}{z-s_j} &= \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & a_{12}^{(j)} (z-s_1) & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        a_{21}^{(j)}(z-s_1)^{-1} & a_{22}^{(j)} & a_{23}^{(j)} (z-s_1)^{-1} & a_{24}^{(j)} (z-s_1)^{-1}\\[10pt]
+        a_{31}^{(j)} & a_{32}^{(j)} (z-s_1) & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & a_{42}^{(j)} (z-s_1) & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix} \\[10pt] &=
+    \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & 0 & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        0 & a_{22}^{(j)} & 0 & 0\\[10pt]
+        a_{31}^{(j)} & 0 & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & 0 & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+    +\frac{ z-s_1 }{z-s_j}
+    \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)(z-s_j)}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &=
+    \frac{1}{z-s_j}
+    \begin{pmatrix}
+        a_{11}^{(j)} & (s_j-s_1)a_{12}^{(j)} & a_{13}^{(j)} & a_{14}^{(j)} \\[10pt]
+        (s_j-s_1)^{-1} a_{21}^{(j)} & a_{22}^{(j)} & (s_j-s_1)^{-1} a_{23}^{(j)} & (s_j-s_1)^{-1} a_{24}^{(j)}\\[10pt]
+        a_{31}^{(j)} & (s_j-s_1)a_{32}^{(j)} & a_{33}^{(j)} & a_{34}^{(j)} \\[10pt]
+        a_{41}^{(j)} & (s_j-s_1)a_{42}^{(j)} & a_{43}^{(j)} & a_{44}^{(j)}
+    \end{pmatrix}
+    + \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    -\frac{(s_j-s_1)^{-1}}{z-s_1}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\end{aligned}
+\]
+
+
+\[
+\begin{aligned}
+    \frac{T A_1 T^{-1}}{z-s_1} &=
+    \frac{1}{z-s_1}
+    \begin{pmatrix}
+        a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+        0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+        a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+        a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}.
+\end{aligned}
+\]
+
+Now we can sum them
+
+
+\[
+\begin{aligned}
+    \sum_{j=1}^{n}\frac{T A_j T^{-1}}{z-s_j} &=
+    \frac{1}{z-s_1}
+    \begin{pmatrix}
+        a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+        0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+        a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+        a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &
+    +\sum_{j=2}^{n} \frac{T(s_j) A_{j} T^{-1}(s_j)}{z-s_j}
+    + \sum_{j=2}^{n} \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{(s_j-s_1)^{-1}}{z-s_1}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \\[10pt] & =
+    \frac{1}{z-s_1}\left(
+        \begin{pmatrix}
+            a_{11}^{(1)} & 0 & a_{13}^{(1)} & a_{14}^{(1)} \\[10pt]
+            0 & a_{22}^{(1)} & 0 & 0\\[10pt]
+            a_{31}^{(1)} & 0 & a_{33}^{(1)} & a_{34}^{(1)} \\[10pt]
+            a_{41}^{(1)} & 0 & a_{43}^{(1)} & a_{44}^{(1)}
+        \end{pmatrix}
+        -\sum_{j=2}^{n} \frac{1}{s_j-s_1}
+        \begin{pmatrix}
+            0 & 0 & 0 & 0 \\[10pt]
+            a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+            0 & 0 & 0 & 0 \\[10pt]
+            0 & 0 & 0 & 0
+        \end{pmatrix}
+    \right)
+    +\sum_{j=2}^{n} \frac{T(s_j) A_{j} T^{-1}(s_j)}{z-s_j}
+    + \sum_{j=1}^{n} \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    \\[10pt] & +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\end{aligned}
+\]
+
+\end{block}
+
+\begin{block}
+Therefore we have two interesting cases. If $\delta = 1$, then
+
+\[
+    \begin{aligned}
+    \sum_{j=1}^{n}\frac{T A_j T^{-1}}{z-s_j} + \frac{dT}{dz} T^{-1}  &=
+    \frac{1}{z-s_1}\left(
+    T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} + 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}\right)
+    + \sum_{j=2}^{n}\frac{T(s_j) A_j T^{-1}(s_j)}{z-s_j}
+    \\[10pt] &
+    + \sum_{j=1}^{n} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & a_{12}^{(1)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(1)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(1)} & 0 & 0
+    \end{pmatrix}.
+    \end{aligned}
+\]
+
+If $\delta = -1$, then
+
+\[
+    \begin{aligned}
+    \sum_{j=1}^{n}\frac{T A_j T^{-1}}{z-s_j} + \frac{dT}{dz} T^{-1}  &=
+    \frac{1}{z-s_1}\left(
+    T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} - 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}\right)
+    + \sum_{j=2}^{n}\frac{T(s_j) A_j T^{-1}(s_j)}{z-s_j}
+    \\[10pt] &
+    + \sum_{j=1}^{n} \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{(z-s_1)^2}
+    \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(1)} & 0 & a_{23}^{(1)}  & a_{24}^{(1)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}.
+    \end{aligned}
+\]
+So we get following $\hat{A}_{j}=T(s_j) A_{j} T^{-1}(s_j)$ and two cases for $\hat{A}_1$ and $\hat{C}$ (when $C = 0$)
+
+\[
+    \hat{A}_1 = T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} + 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix},
+    \qquad
+    \hat{C} = \sum_{j=1}^{n} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\]
+
+and
+
+\[
+    \hat{A}_1 = T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} - 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix},
+    \qquad
+    \hat{C} = \sum_{j=1}^{n} \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+\]
+
+
+
+
+\end{block}
+
+
+
+\begin{block}
+Suppose $C = C(z)$ is a polynomial matrix, then
+
+\[
+    \begin{aligned}
+    T C T^{-1} &= \begin{pmatrix}
+        c_{11} & c_{12} (z-s_1)^{-\delta} & c_{13} & c_{14} \\[10pt]
+        c_{21}(z-s_1)^\delta & c_{22} & c_{23} (z-s_1)^\delta & c_{24} (z-s_1)^\delta\\[10pt]
+        c_{31} & c_{32} (z-s_1)^{-\delta} & c_{33} & c_{34} \\[10pt]
+        c_{41} & c_{42} (z-s_1)^{-\delta} & c_{43} & c_{44}
+    \end{pmatrix}
+    \\ &=
+    \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    +(z-s_1)^\delta\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        c_{21} & 0 & c_{23} & c_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +(z-s_1)^{-\delta} \begin{pmatrix}
+        0 & c_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & c_{32} & 0 & 0 \\[10pt]
+        0 & c_{42} & 0 & 0
+    \end{pmatrix},
+    \end{aligned}
+\]
+
+since $c_{ij} = c_{ij}(z)$ is a polynomial we use polynomial long division, so that
+
+\[
+    c_{ij}(z) = (z-s_1) \bar{c}_{ij}(z) + \tilde{c}_{ij}.
+\]
+
+where $\tilde{c}_{ij}$ is a constant. If $\delta = 1$, then
+
+
+\[
+    \begin{aligned}
+    T C T^{-1} &=
+    \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    +(z-s_1) \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        c_{21} & 0 & c_{23} & c_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{z-s_1} \begin{pmatrix}
+        0 & c_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & c_{32} & 0 & 0 \\[10pt]
+        0 & c_{42} & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &=
+    \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    +(z-s_1) \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        c_{21} & 0 & c_{23} & c_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & \bar{c}_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & \bar{c}_{32} & 0 & 0 \\[10pt]
+        0 & \bar{c}_{42} & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{z-s_1} \begin{pmatrix}
+        0 & \tilde{c}_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & \tilde{c}_{32} & 0 & 0 \\[10pt]
+        0 & \tilde{c}_{42} & 0 & 0
+    \end{pmatrix}.
+    \end{aligned}
+\]
+
+If $\delta = -1$, then
+
+\[
+    \begin{aligned}
+    T C T^{-1} &=
+    \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    +\frac{1}{z-s_1} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        c_{21} & 0 & c_{23} & c_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    + (z-s_1) \begin{pmatrix}
+        0 & c_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & c_{32} & 0 & 0 \\[10pt]
+        0 & c_{42} & 0 & 0
+    \end{pmatrix}
+    \\[10pt] &=
+    \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    + (z-s_1) \begin{pmatrix}
+        0 & c_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & c_{32} & 0 & 0 \\[10pt]
+        0 & c_{42} & 0 & 0
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        \bar{c}_{21} & 0 & \bar{c}_{23} & \bar{c}_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\frac{1}{z-s_1} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        \tilde{c}_{21} & 0 & \tilde{c}_{23} & \tilde{c}_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}.
+    \end{aligned}
+\]
+
+
+\end{block}
+
+
+
+\begin{block}
+Now we have following, if $\delta = 1$
+
+\[
+    \hat{A}_1 = T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} + 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    + \begin{pmatrix}
+        0 & \tilde{c}_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & \tilde{c}_{32} & 0 & 0 \\[10pt]
+        0 & \tilde{c}_{42} & 0 & 0
+    \end{pmatrix},
+\]
+
+\[
+    \hat{C} = \sum_{j=1}^{n} \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    + \begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    +(z-s_1) \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        c_{21} & 0 & c_{23} & c_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & \bar{c}_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & \bar{c}_{32} & 0 & 0 \\[10pt]
+        0 & \bar{c}_{42} & 0 & 0
+    \end{pmatrix},
+\]
+
+and if $\delta = -1$
+
+\[
+    \hat{A}_1 = T(s_1) A_1 T(s_1)
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{22}^{(1)} - 1 & 0 & 0\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    -\sum_{j=2}^{n} \frac{1}{s_j-s_1}\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        a_{21}^{(j)} & 0 & a_{23}^{(j)}  & a_{24}^{(j)}\\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    + \begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        \tilde{c}_{21} & 0 & \tilde{c}_{23} & \tilde{c}_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix},
+\]
+
+\[
+    \hat{C} = \sum_{j=1}^{n} \begin{pmatrix}
+        0 & a_{12}^{(j)} & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & a_{32}^{(j)} & 0 & 0 \\[10pt]
+        0 & a_{42}^{(j)} & 0 & 0
+    \end{pmatrix}
+    +\begin{pmatrix}
+        c_{11} & 0 & c_{13} & c_{14} \\[10pt]
+        0 & c_{22} & 0 & 0 \\[10pt]
+        c_{31} & 0 & c_{33} & c_{34} \\[10pt]
+        c_{41} & 0 & c_{43} & c_{44}
+    \end{pmatrix}
+    + (z-s_1) \begin{pmatrix}
+        0 & c_{12}  & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & c_{32} & 0 & 0 \\[10pt]
+        0 & c_{42} & 0 & 0
+    \end{pmatrix}
+    +\begin{pmatrix}
+        0 & 0 & 0 & 0 \\[10pt]
+        \bar{c}_{21} & 0 & \bar{c}_{23} & \bar{c}_{24} \\[10pt]
+        0 & 0 & 0 & 0 \\[10pt]
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+\]
+
+
+
+\end{block}
+
+
+
+
+
+
+\end{document}
